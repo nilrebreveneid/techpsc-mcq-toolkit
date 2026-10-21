@@ -5,20 +5,56 @@ question banks before they reach learners. English and Nepali Unicode text are
 supported. All processing happens locally; there are no network calls, accounts,
 analytics, or paid services.
 
-Version 0.1.0 includes a validator, CLI, tests, and original demo questions.
+## The problem it addresses
+
+Exam-preparation teams often maintain question banks separately from the app
+that displays them. A malformed answer index, missing option, duplicate prompt,
+or invalid JSON can make a question confusing or unusable for learners. These
+checks are especially useful when a bank contains both English and Nepali text:
+Unicode normalization and whitespace differences can otherwise hide repeated
+items. This toolkit catches structural issues before a bank is integrated.
+
+It is intended for independent exam-preparation developers, educators, and
+small content teams who keep MCQs in JSON. It checks structure and consistency,
+not whether an answer is factually correct or pedagogically sound; human review
+is still required.
+
+Version 0.1.1 includes a validator, CLI, tests, and original demo questions.
 A quiz player is not included. The source is MIT-licensed; no npm package has
 been published.
 
-## Quick start
+## Install and use
 
-Requires Node.js 22 or newer. No dependency installation is needed.
+Requires Node.js 22 or newer. The toolkit has no runtime dependencies. Clone it
+to validate banks directly:
 
 ```sh
+git clone https://github.com/nilrebreveneid/techpsc-mcq-toolkit.git
+cd techpsc-mcq-toolkit
 node --test
 node bin/mcq-check.mjs examples
 node bin/mcq-check.mjs examples --format json
 node bin/mcq-check.mjs /path/to/your/question-banks --fail-on-warnings
 ```
+
+To use the CLI from another Node.js project, install the public GitHub
+repository as a development dependency (this does not publish it to npm):
+
+```sh
+npm install --save-dev git+https://github.com/nilrebreveneid/techpsc-mcq-toolkit.git
+npx mcq-check ./question-banks --fail-on-warnings
+```
+
+Or import the validator from the installed package:
+
+```js
+import { validateQuiz } from 'techpsc-mcq-toolkit';
+```
+
+For a repeatable project workflow, add a script such as
+`"check:question-bank": "mcq-check ./question-banks --fail-on-warnings"` to
+your own `package.json` and run it in local checks or CI. Keep real learner or
+premium question content out of public fixtures and logs.
 
 Select a directory containing only question-bank JSON files. The CLI recursively
 checks `.json` files, ignores hidden folders and `node_modules`, and skips
@@ -47,7 +83,7 @@ translations and paraphrases are not automatically identified as duplicates.
 **This does not verify factual correctness, educational quality, copyright,
 security of URLs, or scientific accuracy.** Answer indexes can be structurally
 valid while pointing to factually incorrect answers. Human review is essential.
-Image, rich-text and multilingual-object options are outside version 0.1.0;
+Image, rich-text and multilingual-object options are outside version 0.1.1;
 provide plain string options. Unknown metadata fields are ignored.
 
 ## Library API
@@ -99,15 +135,21 @@ questions were written for this repository.
 No adoption figures, download totals, awards or program acceptance are claimed.
 TechPSC app usage is not evidence of adoption of this toolkit.
 
+The repository currently demonstrates the public toolkit's own checks through
+synthetic English and Nepali examples, automated tests, and GitHub Actions. It
+does not claim integration with TechPSC's production question-bank pipeline.
+That integration will be documented only if it is implemented and verified.
+
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). The repository must remain useful without
-access to private TechPSC systems. Add tests for every behavior change and use
-synthetic data only.
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [MAINTAINING.md](MAINTAINING.md).
+The repository must remain useful without access to private TechPSC systems.
+Add tests for every behavior change and use synthetic data only.
 
 ## License
 
 MIT — see [LICENSE](LICENSE). This applies only to the files in this standalone
 toolkit, not the TechPSC app, branding or production content. `private: true`
-in package.json prevents accidental npm publication; it does not restrict use
-under the MIT license.
+in package.json intentionally prevents accidental npm publication. The source
+remains public and usable from GitHub; npm publication is a separate release
+decision.
