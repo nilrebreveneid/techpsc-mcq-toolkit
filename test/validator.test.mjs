@@ -16,7 +16,7 @@ test('accepts Nepali Unicode and q alias', () => {
   assert.equal(validateQuiz(quiz({ q: '४ र २ को योगफल कति हुन्छ?', options: ['४', '५', '६', '७'], answer: 2 })).valid, true);
 });
 for (const value of [null, [], 1, 'text']) {
-  test(`rejects non-object root ${JSON.stringify(value)}`, () => assert.equal(validateQuiz(value).valid, false));
+  test('rejects non-object root ' + JSON.stringify(value), () => assert.equal(validateQuiz(value).valid, false));
 }
 test('rejects missing questions and empty bank', () => {
   assert.deepEqual(codes(validateQuiz({})), ['MISSING_QUESTIONS']);
@@ -47,7 +47,7 @@ test('detects normalized duplicate options', () => {
   assert.ok(codes(validateQuiz(quiz(question({ options: ['One', ' one ', 'Three', 'Four'] })))).includes('DUPLICATE_OPTION'));
 });
 for (const answer of [-1, 4, 0.5, '1', null, undefined]) {
-  test(`rejects invalid answer ${String(answer)}`, () => {
+  test('rejects invalid answer ' + String(answer), () => {
     assert.ok(codes(validateQuiz(quiz(question({ answer })))).includes('INVALID_ANSWER'));
   });
 }
@@ -65,7 +65,7 @@ test('within-file duplicates are warnings', () => {
   assert.ok(codes(result).includes('DUPLICATE_QUESTION'));
 });
 test('normalizes canonically equivalent Unicode text', () => {
-  const result = validateQuiz(quiz(question({ question: 'Café?' }), question({ question: 'Cafe\u0301?' })));
+  const result = validateQuiz(quiz(question({ question: 'Café?' }), question({ question: 'Cafe' + String.fromCodePoint(0x301) + '?' })));
   assert.ok(codes(result).includes('DUPLICATE_QUESTION'));
 });
 test('enforces optional nonempty unique ids', () => {
@@ -82,6 +82,14 @@ test('cross-file duplicates are reported with correct location and totals', () =
   assert.equal(result.warnings, 1);
   assert.equal(result.errors, 0);
   assert.ok(codes(result.files[1]).includes('CROSS_FILE_DUPLICATE'));
+});
+test('cross-file duplicate detection handles whitespace in Nepali prompts', () => {
+  const result = validateCollection([
+    { name: 'civil.json', payload: quiz(question({ question: 'नेपालको राजधानी कहाँ हो?' })) },
+    { name: 'gk.json', payload: quiz(question({ question: '  नेपालको राजधानी   कहाँ हो?  ' })) }
+  ]);
+  assert.equal(result.warnings, 1);
+  assert.equal(result.files[1].issues[0].code, 'CROSS_FILE_DUPLICATE');
 });
 test('malformed collection payload does not crash validation', () => {
   const result = validateCollection([{ name: 'bad.json', payload: null }]);
