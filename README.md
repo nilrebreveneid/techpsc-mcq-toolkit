@@ -25,6 +25,9 @@ been published.
 
 ## Install and use
 
+Architecture and scope: [ARCHITECTURE.md](ARCHITECTURE.md) · CLI interaction guidelines: [CLI_UX.md](CLI_UX.md).
+
+
 Requires Node.js 22 or newer. The toolkit has no runtime dependencies. Clone it
 to validate banks directly:
 
