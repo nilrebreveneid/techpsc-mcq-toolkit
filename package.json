@@ -1,0 +1,17 @@
+{
+  "name": "techpsc-mcq-toolkit",
+  "version": "0.1.0",
+  "description": "Local-first validation of English and Nepali MCQ JSON question banks.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "engines": { "node": ">=22" },
+  "exports": "./src/validator.mjs",
+  "bin": { "mcq-check": "./bin/mcq-check.mjs" },
+  "scripts": {
+    "test": "node --test",
+    "check:examples": "node bin/mcq-check.mjs examples"
+  },
+  "files": ["src", "bin", "examples", "README.md", "FORMAT.md", "SECURITY.md", "LICENSE"],
+  "keywords": ["mcq", "quiz", "validation", "nepali", "question-bank"]
+}
