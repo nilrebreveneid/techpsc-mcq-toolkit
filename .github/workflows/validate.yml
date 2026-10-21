@@ -1,0 +1,23 @@
+name: Validate toolkit
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-check-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Run automated tests
+        run: node --test
+      - name: Validate bundled English and Nepali examples
+        run: node bin/mcq-check.mjs examples --fail-on-warnings
