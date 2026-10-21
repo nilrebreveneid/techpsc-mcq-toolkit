@@ -1,0 +1,12 @@
+{
+  "title": "Original arithmetic demonstration",
+  "questions": [
+    {
+      "id": "arithmetic-1",
+      "question": "What is 2 + 3?",
+      "options": ["4", "5", "6", "7"],
+      "answer": 1,
+      "explanation": "Adding three to two gives five."
+    }
+  ]
+}
