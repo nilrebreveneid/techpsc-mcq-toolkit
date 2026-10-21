@@ -1,23 +1,48 @@
 {
   "name": "techpsc-mcq-toolkit",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Local-first validation of English and Nepali MCQ JSON question banks.",
   "type": "module",
   "private": true,
   "license": "MIT",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nilrebreveneid/techpsc-mcq-toolkit.git"
   },
   "homepage": "https://github.com/nilrebreveneid/techpsc-mcq-toolkit#readme",
-  "bugs": { "url": "https://github.com/nilrebreveneid/techpsc-mcq-toolkit/issues" },
+  "bugs": {
+    "url": "https://github.com/nilrebreveneid/techpsc-mcq-toolkit/issues"
+  },
   "exports": "./src/validator.mjs",
-  "bin": { "mcq-check": "./bin/mcq-check.mjs" },
+  "bin": {
+    "mcq-check": "./bin/mcq-check.mjs"
+  },
   "scripts": {
     "test": "node --test",
-    "check:examples": "node bin/mcq-check.mjs examples"
+    "check:examples": "node bin/mcq-check.mjs examples --fail-on-warnings"
   },
-  "files": ["src", "bin", "examples", "README.md", "FORMAT.md", "ARCHITECTURE.md", "CLI_UX.md", "SECURITY.md", "LICENSE", "CHANGELOG.md"],
-  "keywords": ["mcq", "quiz", "validation", "nepali", "question-bank"]
+  "files": [
+    "src",
+    "bin",
+    "examples",
+    "docs",
+    "README.md",
+    "FORMAT.md",
+    "ARCHITECTURE.md",
+    "CLI_UX.md",
+    "INTEGRATION.md",
+    "SECURITY.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "keywords": [
+    "mcq",
+    "quiz",
+    "validation",
+    "nepali",
+    "question-bank"
+  ]
 }
