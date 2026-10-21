@@ -25,7 +25,7 @@ test('help and invalid arguments have stable exit codes', () => {
 test('bundled English and Nepali examples pass', () => {
   const result = run(join(root, 'examples'), '--format', 'json');
   assert.equal(result.status, 0, result.stderr);
-  assert.equal(JSON.parse(result.stdout).questionCount, 2);
+  assert.equal(JSON.parse(result.stdout).questionCount, 6);
 });
 test('invalid JSON does not expose original input in reports', async t => {
   const directory = await fixture(t);
