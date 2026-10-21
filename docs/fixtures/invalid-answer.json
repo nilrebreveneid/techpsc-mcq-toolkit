@@ -1,0 +1,10 @@
+{
+  "title": "Synthetic structural-error demonstration",
+  "questions": [
+    {
+      "question": "Which number is even?",
+      "options": ["1", "2", "3", "5"],
+      "answer": 4
+    }
+  ]
+}
