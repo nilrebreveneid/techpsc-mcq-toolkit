@@ -1,5 +1,5 @@
 {
-  "title": "Original arithmetic demonstration",
+  "title": "Original arithmetic and science examples",
   "questions": [
     {
       "id": "arithmetic-1",
@@ -7,6 +7,20 @@
       "options": ["4", "5", "6", "7"],
       "answer": 1,
       "explanation": "Adding three to two gives five."
+    },
+    {
+      "id": "arithmetic-2",
+      "question": "Which number is the first even prime number?",
+      "options": ["1", "2", "3", "5"],
+      "answer": 1,
+      "explanation": "Two is the only even prime number."
+    },
+    {
+      "id": "science-1",
+      "question": "Which planet is commonly called the Red Planet?",
+      "options": ["Venus", "Mars", "Jupiter", "Mercury"],
+      "answer": 1,
+      "explanation": "Iron-rich dust gives Mars its familiar reddish appearance."
     }
   ]
 }
