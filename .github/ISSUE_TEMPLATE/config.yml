@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/nilrebreveneid/techpsc-mcq-toolkit/blob/main/SECURITY.md
+    about: Review the private vulnerability reporting guidance in SECURITY.md before sharing details.
