@@ -14,6 +14,11 @@
 - Add Contributor Covenant 2.1, GitHub issue forms, a pull-request checklist,
   repository badges, and an unscheduled GitHub Issues roadmap.
 - Expand CI to Node.js 22 and 24 on Ubuntu and Windows.
+- Add scheduled CI, concurrency cancellation, and an intentionally invalid
+  bilingual fixture that CI verifies is rejected without exposing question text.
+- Clarify private vulnerability reporting, supported versions, and the target
+  acknowledgement window.
+- Align the README and package homepage with the public project page.
 - Keep the package dependency-free and `private: true`; no npm publication or
   TechPSC production integration is claimed.
 

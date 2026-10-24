@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/nilrebreveneid/techpsc-mcq-toolkit.git"
   },
-  "homepage": "https://github.com/nilrebreveneid/techpsc-mcq-toolkit#readme",
+  "homepage": "https://techpsc.com/open-source/",
   "bugs": {
     "url": "https://github.com/nilrebreveneid/techpsc-mcq-toolkit/issues"
   },
@@ -22,8 +22,9 @@
   },
   "scripts": {
     "test": "node --test",
-    "check:examples": "node bin/mcq-check.mjs examples --fail-on-warnings"
+    "check:examples": "node scripts/check-valid-examples.mjs",
+    "check:invalid-example": "node scripts/assert-invalid-example.mjs"
   },
-  "files": ["src", "bin", "examples", "docs", "README.md", "FORMAT.md", "ARCHITECTURE.md", "CLI_UX.md", "INTEGRATION.md", "SECURITY.md", "CODE_OF_CONDUCT.md", "LICENSE", "CHANGELOG.md"],
+  "files": ["src", "bin", "scripts", "examples", "docs", "README.md", "FORMAT.md", "ARCHITECTURE.md", "CLI_UX.md", "INTEGRATION.md", "SECURITY.md", "CODE_OF_CONDUCT.md", "LICENSE", "CHANGELOG.md"],
   "keywords": ["mcq", "quiz", "validation", "nepali", "question-bank"]
 }

@@ -19,7 +19,8 @@ Run the same checks used in GitHub Actions:
 
 ```sh
 node --test
-node bin/mcq-check.mjs examples --fail-on-warnings
+npm run check:examples
+npm run check:invalid-example
 ```
 
 Review the format contract, privacy implications of diagnostics, Node.js 22

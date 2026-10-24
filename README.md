@@ -28,7 +28,7 @@ Requires Node.js 22 or newer; there are no runtime dependencies.
 git clone https://github.com/nilrebreveneid/techpsc-mcq-toolkit.git
 cd techpsc-mcq-toolkit
 node --test
-node bin/mcq-check.mjs examples --fail-on-warnings
+node scripts/check-valid-examples.mjs
 node bin/mcq-check.mjs /path/to/question-banks --fail-on-warnings
 ```
 
@@ -40,14 +40,18 @@ $ node bin/mcq-check.mjs examples/topic-coherence/geometry-scrambled.json --topi
 WARNING geometry-scrambled.json $.questions TOPIC_LOW_MATCH: Topic keywords matched 0 of 4 questions (0.0%); minimum is 50.0%.
 $ node bin/mcq-check.mjs examples/topic-coherence/geometry-scrambled.json --topic-keywords examples/topic-coherence/keywords.json --min-topic-match 0
 1 files · 4 questions · 0 errors · 0 warnings
+$ node bin/mcq-check.mjs examples/invalid
+1 files · 2 questions · 1 errors · 0 warnings
+ERROR invalid-bilingual.json $.questions[1].answer INVALID_ANSWER: answer must be a zero-based integer index into options.
 ```
 
 The topic check is opt-in and searches normalized question text and options.
 Use `--verbose` for mismatch indexes only, or `--style-checks` to enable the
 answer-position and option-length heuristics.
 
-To use the CLI from another Node.js project, install the public GitHub
-repository as a development dependency (this does not publish it to npm):
+After the v0.2.0 GitHub release is published, use the CLI from another Node.js
+project by installing the public GitHub repository as a development dependency
+(this does not publish it to npm):
 
 ```sh
 npm install --save-dev git+https://github.com/nilrebreveneid/techpsc-mcq-toolkit.git#v0.2.0
@@ -67,14 +71,14 @@ See [INTEGRATION.md](INTEGRATION.md) for a consumer CI template, error-output ex
 - Optional topic-coherence warnings based on file/quizId keyword mappings.
 - Optional answer-position skew and unusually long correct-option warnings.
 - Optional unique question IDs, optional explanations, and question counts.
+- Options must be non-empty text strings.
 
-Errors fail validation. Duplicate questions and empty optional explanations are warnings; `--fail-on-warnings` makes warnings fail CI. Images, rich text, and multilingual-object options are unsupported; options must be text strings.
+Errors fail validation. Duplicate questions and empty optional explanations are warnings; `--fail-on-warnings` makes warnings fail CI. Image/path references, rich text, and multilingual-object options are unsupported in v0.2.0.
 
 **This does not verify factual correctness, educational quality, copyright,
 security of URLs, or scientific accuracy.** Answer indexes can be structurally
 valid while pointing to factually incorrect answers. Human review is essential.
-Image, rich-text and multilingual-object options are outside version 0.2.0;
-provide plain string options. Unknown metadata fields are ignored.
+Unknown metadata fields are ignored.
 The tool never rewrites source files. It skips hidden directories, `node_modules`
 and symlinks; selected files over 16 MiB are rejected. Reports contain codes and
 locations, not question/answer text, but filenames may reveal information.

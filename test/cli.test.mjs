@@ -23,9 +23,10 @@ test('help and invalid arguments have stable exit codes', () => {
   }
 });
 test('bundled English and Nepali examples pass', () => {
-  const result = run(join(root, 'examples'), '--format', 'json');
+  const result = spawnSync(process.execPath,
+    [join(root, 'scripts', 'check-valid-examples.mjs')], { encoding: 'utf8' });
   assert.equal(result.status, 0, result.stderr);
-  assert.equal(JSON.parse(result.stdout).questionCount, 14);
+  assert.equal(result.stdout.trim(), '4 files · 14 questions · 0 errors · 0 warnings');
 });
 test('invalid JSON does not expose original input in reports', async t => {
   const directory = await fixture(t);

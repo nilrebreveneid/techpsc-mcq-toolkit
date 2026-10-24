@@ -5,7 +5,8 @@
 ## Review checklist
 
 - [ ] `node --test` passes.
-- [ ] `node bin/mcq-check.mjs examples --fail-on-warnings` passes.
+- [ ] `npm run check:examples` passes.
+- [ ] `npm run check:invalid-example` confirms invalid input is rejected safely.
 - [ ] Examples and tests use synthetic or clearly redistributable data only.
 - [ ] Documentation is updated for any user-visible behavior or CLI change.
 - [ ] Reports do not expose question/option text, answer values, credentials, or personal data.
