@@ -49,9 +49,8 @@ The topic check is opt-in and searches normalized question text and options.
 Use `--verbose` for mismatch indexes only, or `--style-checks` to enable the
 answer-position and option-length heuristics.
 
-After the v0.2.0 GitHub release is published, use the CLI from another Node.js
-project by installing the public GitHub repository as a development dependency
-(this does not publish it to npm):
+Install the CLI in another Node.js project as a development dependency from the
+public GitHub `v0.2.0` release (npm publication is not enabled):
 
 ```sh
 npm install --save-dev git+https://github.com/nilrebreveneid/techpsc-mcq-toolkit.git#v0.2.0
