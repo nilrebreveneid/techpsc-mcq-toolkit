@@ -1,12 +1,13 @@
 # Contributing
 
-This project is MIT-licensed; see LICENSE. Its first public release is being prepared.
+This project is MIT-licensed; see LICENSE. It is maintained as a small,
+dependency-free public toolkit; npm publication is not enabled.
 
 Before proposing a change:
 
 1. Use only original or clearly redistributable synthetic fixtures.
 2. Keep the tool local-first and dependency-free unless there is a documented need.
-3. Run `node --test` and `node bin/mcq-check.mjs examples`.
+3. Run `node --test`, `npm run check:examples`, and `npm run check:invalid-example`.
 4. Add regression tests and document any format or exit-code changes.
 5. Keep error reports free of question text, answers, credentials and personal data.
 

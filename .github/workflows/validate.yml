@@ -3,21 +3,34 @@ name: Validate toolkit
 on:
   push:
   pull_request:
+  schedule:
+    - cron: '23 6 * * 1'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
 
 jobs:
   test-and-check-examples:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node-version: [22, 24]
     steps:
       - name: Check out source
         uses: actions/checkout@v4
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: ${{ matrix.node-version }}
       - name: Run automated tests
         run: node --test
       - name: Validate bundled English and Nepali examples
-        run: node bin/mcq-check.mjs examples --fail-on-warnings
+        run: node scripts/check-valid-examples.mjs
+      - name: Assert invalid bilingual example is rejected
+        run: node scripts/assert-invalid-example.mjs

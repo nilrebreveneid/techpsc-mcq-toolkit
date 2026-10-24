@@ -14,7 +14,13 @@ Scope limitations:
 - Symlink entries are skipped, not treated as a security boundary against races.
 - File size is bounded per file; total input size and number of files are not.
 
-Do not post a secret, production dataset or exploit against a live service in a
-public issue. After publication, use GitHub's private vulnerability-reporting
-feature if the maintainer enables it. No dedicated vulnerability inbox or response
-time is currently promised.
+Supported versions: only the latest tagged release.
+
+Please report vulnerabilities privately through GitHub's **Report a
+vulnerability** feature on the repository's Security tab, or email
+official@techpsc.com. Do not post a secret, production dataset or exploit against
+a live service in a public issue.
+
+The maintainer aims to acknowledge a report within seven calendar days. This is
+an acknowledgement target, not a guaranteed fix date; remediation timing depends
+on severity, reproducibility, and maintainer availability.

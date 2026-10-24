@@ -1,0 +1,29 @@
+{
+  "quizId": "weekly-geometry",
+  "questions": [
+    {
+      "id": "geometry-1",
+      "question": "How many sides does a triangle have?",
+      "options": ["Two", "Three", "Four", "Five"],
+      "answer": 1
+    },
+    {
+      "id": "geometry-2",
+      "question": "What is the sum of the interior angles of a triangle?",
+      "options": ["90 degrees", "180 degrees", "270 degrees", "360 degrees"],
+      "answer": 1
+    },
+    {
+      "id": "geometry-3",
+      "question": "Which instrument is used to measure an angle?",
+      "options": ["Protractor", "Thermometer", "Compass", "Ruler"],
+      "answer": 0
+    },
+    {
+      "id": "geometry-4",
+      "question": "त्रिभुजका कति वटा भुजा हुन्छन्?",
+      "options": ["दुई", "तीन", "चार", "पाँच"],
+      "answer": 1
+    }
+  ]
+}

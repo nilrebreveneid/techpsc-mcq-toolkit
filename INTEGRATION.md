@@ -4,10 +4,11 @@ This guide is a reusable integration recipe for a Node.js project that keeps MCQ
 
 ## Pin the toolkit release
 
-After the `v0.1.2` GitHub release is available, add that exact tag as a dev dependency from the project that owns the question banks:
+After the `v0.2.0` GitHub tag is published, add that exact tag as a dev
+dependency from the project that owns the question banks:
 
 ```sh
-npm install --save-dev git+https://github.com/nilrebreveneid/techpsc-mcq-toolkit.git#v0.1.2
+npm install --save-dev git+https://github.com/nilrebreveneid/techpsc-mcq-toolkit.git#v0.2.0
 ```
 
 Commit the resulting `package.json` and `package-lock.json`. In the consuming project’s `package.json`, add:
