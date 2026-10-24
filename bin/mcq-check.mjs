@@ -7,6 +7,10 @@ const HELP = `TechPSC MCQ Toolkit — local JSON validation
 Usage: node bin/mcq-check.mjs <file.json|directory> [options]
   --options N          Required options per question (2–100; default 4)
   --expected N         Required question count per file
+  --topic-keywords F   Enable topic coherence checks using keyword mapping JSON
+  --min-topic-match N  Minimum topic keyword match ratio from 0 to 1 (default 0.5)
+  --style-checks       Enable answer-position and option-length warnings
+  --verbose            Include per-question topic mismatch indexes
   --format text|json   Output format (default text)
   --fail-on-warnings   Exit 1 for warnings as well as errors
   --help               Show help
@@ -17,17 +21,26 @@ No network calls. No file changes. Reports omit question text and answer values.
 const MAX_BYTES = 16 * 1024 * 1024;
 
 function parseArgs(args) {
-  const config = { optionCount: 4, format: 'text', failOnWarnings: false };
+  const config = { optionCount: 4, format: 'text', failOnWarnings: false, minTopicMatch: 0.5, styleChecks: false, verbose: false };
+  let minTopicMatchSpecified = false;
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     if (arg === '--help') { config.help = true; continue; }
     if (arg === '--fail-on-warnings') { config.failOnWarnings = true; continue; }
-    if (['--options', '--expected', '--format'].includes(arg)) {
+    if (arg === '--style-checks') { config.styleChecks = true; continue; }
+    if (arg === '--verbose') { config.verbose = true; continue; }
+    if (['--options', '--expected', '--format', '--topic-keywords', '--min-topic-match'].includes(arg)) {
       const value = args[++i];
       if (value === undefined) throw new Error(`${arg} requires a value.`);
       if (arg === '--format') {
         if (!['text', 'json'].includes(value)) throw new Error('--format must be text or json.');
         config.format = value;
+      } else if (arg === '--topic-keywords') {
+        config.topicKeywordsPath = value;
+      } else if (arg === '--min-topic-match') {
+        if (!/^(?:0(?:\.\d+)?|1(?:\.0+)?|\.\d+)$/u.test(value)) throw new Error('--min-topic-match must be a number between 0 and 1.');
+        config.minTopicMatch = Number(value);
+        minTopicMatchSpecified = true;
       } else {
         if (!/^[1-9]\d*$/.test(value) || !Number.isSafeInteger(Number(value))) throw new Error(`${arg} requires a positive integer.`);
         if (arg === '--options') config.optionCount = Number(value);
@@ -39,7 +52,16 @@ function parseArgs(args) {
   }
   if (!config.help && !config.input) throw new Error('An explicit input file or directory is required.');
   if (config.optionCount < 2 || config.optionCount > 100) throw new Error('--options must be between 2 and 100.');
+  if (minTopicMatchSpecified && !config.topicKeywordsPath) throw new Error('--min-topic-match requires --topic-keywords.');
   return config;
+}
+
+function isValidTopicKeywords(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const entries = Object.entries(value);
+  return entries.length > 0 && entries.every(([pattern, keywords]) =>
+    pattern.trim().length > 0 && Array.isArray(keywords) && keywords.length > 0 &&
+    keywords.every(keyword => typeof keyword === 'string' && keyword.trim().length > 0));
 }
 
 async function collect(input) {
@@ -90,19 +112,43 @@ async function main() {
   catch (error) { console.error(error.message); process.exitCode = 2; return; }
   if (config.help) { console.log(HELP); return; }
   try {
+    if (config.topicKeywordsPath) {
+      let topicKeywords;
+      try { topicKeywords = await readJson(resolve(config.topicKeywordsPath)); }
+      catch {
+        console.error('Unable to read --topic-keywords file. Check its path, permissions, size, and UTF-8 JSON format.');
+        process.exitCode = 2;
+        return;
+      }
+      if (!isValidTopicKeywords(topicKeywords)) {
+        console.error('Invalid --topic-keywords file. Expected a non-empty object mapping file or quizId globs to non-empty keyword arrays.');
+        process.exitCode = 2;
+        return;
+      }
+      config.topicKeywords = topicKeywords;
+    }
     const { root, paths } = await collect(resolve(config.input));
     if (!paths.length) throw new Error('No JSON files found.');
     const documents = [];
     const failures = [];
     for (const path of paths) {
       const name = root ? relative(root, path).split('\\').join('/') : basename(path);
-      try { documents.push({ name, payload: await readJson(path) }); }
+      try {
+        const payload = await readJson(path);
+        const isSelectedKeywordFile = root && config.topicKeywordsPath && path === resolve(config.topicKeywordsPath);
+        const isKeywordMap = root && !Array.isArray(payload?.questions) && isValidTopicKeywords(payload);
+        // Topic keyword maps are configuration, not question banks. Excluding them
+        // makes a config file safe to keep beside the examples or input directory.
+        if (isSelectedKeywordFile || isKeywordMap) continue;
+        documents.push({ name, payload });
+      }
       catch (error) {
         const message = error.message === 'SIZE' ? 'File is too large or changed during reading.' : 'File is unreadable or is not valid UTF-8 JSON.';
         failures.push({ file: name, valid: false, questionCount: 0,
           issues: [{ severity: 'error', code: 'INPUT_ERROR', path: '$', message }] });
       }
     }
+    if (!documents.length && !failures.length) throw new Error('No question-bank JSON files found.');
     const validated = validateCollection(documents, config);
     const report = summarize([...validated.files, ...failures].sort((a, b) => a.file.localeCompare(b.file)));
     if (config.format === 'json') console.log(JSON.stringify(report, null, 2));

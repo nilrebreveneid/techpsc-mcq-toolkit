@@ -1,0 +1,29 @@
+{
+  "quizId": "weekly-geometry-mixed",
+  "questions": [
+    {
+      "id": "chemistry-1",
+      "question": "Which gas is released when vinegar reacts with baking soda?",
+      "options": ["Oxygen", "Carbon dioxide", "Nitrogen", "Hydrogen"],
+      "answer": 1
+    },
+    {
+      "id": "chemistry-2",
+      "question": "What is the chemical symbol for sodium?",
+      "options": ["So", "Na", "S", "Sd"],
+      "answer": 1
+    },
+    {
+      "id": "chemistry-3",
+      "question": "Which state of matter has a fixed volume but no fixed shape?",
+      "options": ["Solid", "Liquid", "Gas", "Plasma"],
+      "answer": 1
+    },
+    {
+      "id": "chemistry-4",
+      "question": "पानीको रासायनिक सूत्र कुन हो?",
+      "options": ["CO₂", "H₂O", "O₂", "NaCl"],
+      "answer": 1
+    }
+  ]
+}
